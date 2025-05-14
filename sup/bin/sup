@@ -1,0 +1,95 @@
+#!/usr/bin/bash
+#
+# sup
+#
+# Show the status of a server, specific to the functions of that server.
+#
+
+# These functions are from: https://github.com/RPi-Distro/raspi-config
+is_pizero() {
+    grep -q "^Revision\s*:\s*[ 123][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]0[9cC][0-9a-fA-F]$" /proc/cpuinfo
+    return $?
+}
+is_pifour() {
+    grep -q "^Revision\s*:\s*[ 123][0-9a-fA-F][0-9a-fA-F]3[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]$" /proc/cpuinfo
+    return $?
+}
+is_pifive() {
+    grep -q "^Revision\s*:\s*[ 123][0-9a-fA-F][0-9a-fA-F]4[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]$" /proc/cpuinfo
+    return $?
+}
+
+uptime
+landscape-sysinfo --sysinfo-plugins=Disk,Memory
+
+# If this system is a Raspberry Pi:
+if command -v vcgencmd > /dev/null; then
+    echo -n "  "
+    sudo vcgencmd measure_temp
+    if is_pifive; then
+        if [[ $(</sys/devices/platform/cooling_fan/hwmon/hwmon*/fan1_input) == 0 ]]; then
+            echo "  Fan stopped"
+        else
+            echo "  Fan running"
+        fi
+    fi
+fi
+
+# If this is my time server:
+if [[ -e /run/chrony.ttyAMA0.sock ]]; then
+    echo
+    chronyc tracking
+    echo
+    chronyc sources
+fi
+
+# If this one of my little routers:
+if [[ -e /etc/systemd/network/10-netplan-eth1.network.d ]]; then
+    echo
+    echo "External IP addresses:"
+    curl -4 icanhazip.com
+    curl -6 icanhazip.com
+    if [[ -x ~/bin/renew-ra ]]; then
+        echo
+        renew-ra
+    fi
+    echo
+    netplan status eth1
+fi
+
+# If this system is using ZFS:
+if command -v zpool > /dev/null; then
+    echo
+    zpool status -L | grep -v -e '^$' -e 'errors: No known data errors'
+fi
+
+# If this system is running LXD containers:
+if [[ -x /snap/bin/lxc ]]; then
+    echo
+    lxc list -f compact -c ns
+fi
+
+# If this system has a UPS directly attached:
+if [[ -e /etc/nut/upsd.conf ]]; then
+    echo
+    printf "UPS status: %s\n" "$(upsc ups ups.status 2> /dev/null)"
+    printf "UPS battery charge: %s%%\n" "$(upsc ups battery.charge 2> /dev/null)"
+    printf "UPS input voltage: %sV\n" "$(upsc ups input.voltage 2> /dev/null)"
+fi
+
+# If this system is one of my VPN servers:
+if [[ -x ~/bin/wgp ]]; then
+    echo
+    ~/bin/wgp
+fi
+
+# Check if the running kernel is the latest installed kernel:
+if [[ $(uname -r) != $(/bin/ls -l /boot/vmlinuz | sed -e 's/^.*vmlinuz-\(.*\)$/\1/') ]]; then
+    echo
+    echo "Reboot required"
+fi
+
+# Show any systemd failed units:
+if [[ $(/usr/lib/systemd/systemd --version | awk '/^systemd/ { print $2 }') -ge 255 ]]; then
+    systemctl status --failed
+fi
