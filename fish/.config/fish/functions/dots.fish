@@ -10,5 +10,7 @@ function dots --description 'Make sure .homefiles are current'
             git pull && stow --no-folding bash fish nano sup tmux
         end
         popd
+    else
+        echo This function is not available on this system.
     end
 end

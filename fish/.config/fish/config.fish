@@ -88,19 +88,6 @@ if status is-interactive
                 ping -c1 $argv
             end
 
-            if command -q journalctl
-                function logs --description 'Print filtered list of most recent system log entries'
-                    SYSTEMD_COLORS=1 journalctl --boot --no-pager --system | grep -E -v -e CRON \
-                        -e 'systemd.*Started' \
-                        -e 'systemd.*Starting' \
-                        -e 'systemd.*Finished' \
-                        -e 'systemd.*Deactivated' \
-                        -e 'systemd.*Consumed' \
-                        -e 'INFO.*ubuntupro.timer' \
-                        -e 'sanoid.*INFO' | tail -$LINES
-                end
-            end
-
             # Functions to simplify package management.
             if command -q apt
                 function _do_apt_update --description 'Update the apt package list unless recently updated'
