@@ -215,27 +215,6 @@ if status is-interactive
         end
     end
 
-    # Manage my common home directory files, which I store on GitHub for easy
-    # external access.
-    if path is -d ~/.homefiles; and command -q stow
-        function dots --description 'Make sure .homefiles are current'
-            pushd ~/.homefiles
-            if path is .gitignore
-                # This is the master copy, just print status.
-                git status
-            else
-                git pull
-                switch (uname)
-                    case Linux
-                        stow --no-folding bash fish nano sup tmux
-                    case Darwin
-                        stow --no-folding fish
-                end
-            end
-            popd
-        end
-    end
-
     # For this to work you need keep this file formatted the way fish_indent
     # tells you to.
     function check --description 'Check the fish config file(s)'
