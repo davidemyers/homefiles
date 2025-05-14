@@ -191,11 +191,6 @@ if status is-interactive
         ps wwaux | grep --color=always $argv | grep -v grep
     end
 
-    function myip --description 'Print public IP addresses'
-        curl -4 icanhazip.com
-        curl -6 icanhazip.com
-    end
-
     if command -q speedtest
         function st --wraps=speedtest --description 'alias st speedtest'
             speedtest $argv
