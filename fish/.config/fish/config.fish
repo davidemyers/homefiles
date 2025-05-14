@@ -215,15 +215,16 @@ if status is-interactive
         end
     end
 
-    # Manage my common dot files, which I store on GitHub for easy external access.
-    if path is -d ~/.dotfiles
-        function dots --description 'Make sure .dotfiles are current'
-            pushd ~/.dotfiles
+    # Manage my common home directory files, which I store on GitHub for easy
+    # external access.
+    if path is -d ~/.homefiles; and command -q stow
+        function dots --description 'Make sure .homefiles are current'
+            pushd ~/.homefiles
             if path is .gitignore
                 # This is the master copy, just print status.
                 git status
             else
-                git pull && ./makesymlinks.sh
+                git pull && stow --no-folding bash fish nano sup tmux
             end
             popd
         end
