@@ -184,7 +184,11 @@ if status is-interactive
     set -gx LESS FRSXMK
 
     function which --wraps='type --all --short' --description 'alias which type --all --short'
-        type --all --short $argv
+        if isatty stdout
+            type --all --short $argv
+        else
+            command which $argv
+        end
     end
 
     function psg --description 'grep the output of ps'
@@ -194,17 +198,6 @@ if status is-interactive
     if command -q speedtest
         function st --wraps=speedtest --description 'alias st speedtest'
             speedtest $argv
-        end
-    end
-
-    # For this to work you need keep this file formatted the way fish_indent
-    # tells you to.
-    function check --description 'Check the fish config file(s)'
-        for config in $__fish_config_dir/config.fish $__fish_config_dir/conf.d/*.fish $__fish_config_dir/functions/*.fish
-            if not fish_indent --check $config
-                diff $config (fish_indent $config | psub)
-                break
-            end
         end
     end
 
