@@ -7,7 +7,13 @@ function dots --description 'Make sure .homefiles are current'
             # This is the master copy, just print status.
             git status
         else
-            git pull && stow --no-folding bash fish nano sup tmux
+            git pull
+            switch (uname)
+                case Linux
+                    stow --no-folding bash fish nano sup tmux
+                case Darwin
+                    stow --no-folding fish
+            end
         end
         popd
     else
