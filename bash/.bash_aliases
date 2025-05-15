@@ -39,16 +39,16 @@ psg() {
     ps wwaux | grep --color=always "$@" | grep -v grep
 }
 
-# Function to make sure my dotfiles are current.
+# Function to make sure my home directory files are current.
 # shellcheck disable=SC2164
-if [[ -d ~/.dotfiles ]]; then
-    if [[ -f ~/.dotfiles/.gitignore ]]; then
+if [[ -d ~/.homefiles ]]; then
+    if [[ -f ~/.homefiles/.gitignore ]]; then
         dots() {
-            (cd ~/.dotfiles && git status)
+            (cd ~/.homefiles && git status)
         }
     else
         dots() {
-            (cd ~/.dotfiles && git pull && ./makesymlinks.sh)
+            (cd ~/.homefiles && git pull && stow --no-folding bash fish nano sup tmux)
         }
     fi
 fi
