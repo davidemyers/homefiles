@@ -20,7 +20,9 @@ is_pifive() {
 }
 
 uptime
-landscape-sysinfo --sysinfo-plugins=Disk,Memory
+if command -v landscape-sysinfo > /dev/null; then
+    landscape-sysinfo --sysinfo-plugins=Disk,Memory
+fi
 
 # If this system is a Raspberry Pi:
 if command -v vcgencmd > /dev/null; then
