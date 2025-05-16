@@ -118,6 +118,10 @@ if status is-interactive
                 function aptlog --description 'Tail the apt history log'
                     tail --lines=$LINES /var/log/apt/history.log
                 end
+
+                function kclean --description 'Clean up files left over from removed kernels'
+                    sudo apt purge (dpkg-query -l 'linux-*' | awk '/^rc/ {print $2}')
+                end
             end
 
             if set -q TMUX
