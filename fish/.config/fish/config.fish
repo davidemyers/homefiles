@@ -3,6 +3,8 @@
 # My fish config file for use on Ubuntu and macOS. Began transitioning to fish
 # on 2025-03-24 after 36 years of using bash.
 #
+# A few more complicated functions are kept in separate files.
+#
 # Install fish 4 on Ubuntu Server 24.04 LTS with:
 #
 # sudo add-apt-repository -y ppa:fish-shell/release-4

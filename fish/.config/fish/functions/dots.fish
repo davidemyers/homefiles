@@ -1,5 +1,6 @@
 # Manage my common home directory files, which I store on GitHub for easy
-# external access.
+# access by both internal and external systems. GNU stow is used to symlink
+# the files into their proper locations.
 function dots --description 'Make sure .homefiles are current'
     set repo ~/.homefiles
     if not path is -d $repo
