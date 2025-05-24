@@ -173,11 +173,9 @@ if status is-interactive
     set -g fish_color_comment brblack # default: red
 
     # Show more detail in the git prompt.
-    set -g __fish_git_prompt_show_informative_status no
-    set -g __fish_git_prompt_use_informative_chars yes
-    set -q __fish_git_prompt_showcolorhints yes # Doesn't work?
+    set -g __fish_git_prompt_show_informative_status yes
+    set -g __fish_git_prompt_showcolorhints yes
     set -g __fish_git_prompt_showuntrackedfiles yes
-    set -g __fish_git_prompt_showdirtystate yes
 
     # Need to set EDITOR in order to edit command lines using alt-e.
     set -g EDITOR nano
