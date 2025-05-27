@@ -18,15 +18,18 @@ function dots --description 'Make sure .homefiles are current'
         # This is the master copy, just print status.
         git status
     else
-        set before (stat -c %Y .git/index)
+        switch (uname)
+            case Linux
+                set stow_args bash fish nano sup tmux
+                set stat_args -c %Y
+            case Darwin
+                set stow_args fish
+                set stat_args -f %m
+        end
+        set before (stat $stat_args .git/index)
         git pull
-        if test (stat -c %Y .git/index) -gt $before
-            switch (uname)
-                case Linux
-                    stow --verbose --no-folding bash fish nano sup tmux
-                case Darwin
-                    stow --verbose --no-folding fish
-            end
+        if test (stat $stat_args .git/index) -gt $before
+            stow --verbose --no-folding $stow_args
         end
     end
     popd
