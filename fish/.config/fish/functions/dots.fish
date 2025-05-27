@@ -3,6 +3,7 @@
 # the files into their proper locations.
 function dots --description 'Make sure .homefiles are current'
     set repo ~/.homefiles
+
     if not path is -d $repo
         echo Directory $repo is missing.
         return 1
@@ -11,18 +12,23 @@ function dots --description 'Make sure .homefiles are current'
         echo Command \'stow\' is not installed.
         return 1
     end
+
     pushd $repo
-    if path is .gitignore
+    if not path is .git/FETCH_HEAD
         # This is the master copy, just print status.
         git status
     else
+        set before (stat -c %Y .git/index)
         git pull
-        switch (uname)
-            case Linux
-                stow --no-folding bash fish nano sup tmux
-            case Darwin
-                stow --no-folding fish
+        if test (stat -c %Y .git/index) -gt $before
+            switch (uname)
+                case Linux
+                    stow --verbose --no-folding bash fish nano sup tmux
+                case Darwin
+                    stow --verbose --no-folding fish
+            end
         end
     end
     popd
+
 end
