@@ -171,6 +171,10 @@ if status is-interactive
     set -g fish_color_host_remote 08F brcyan # default: yellow
     # Can't abide the red comments in the default theme.
     set -g fish_color_comment brblack # default: red
+    # I don't like the white '@' in the default prompt.
+    function prompt_login --description 'display user name for the prompt, customized'
+        echo -n -s (set_color $fish_color_user) "$USER" (set_color $fish_color_host) @ (prompt_hostname) (set_color normal)
+    end
 
     # Show more detail in the git prompt.
     set -g __fish_git_prompt_show_informative_status yes
