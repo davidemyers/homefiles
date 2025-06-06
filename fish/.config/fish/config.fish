@@ -168,7 +168,6 @@ if status is-interactive
     # https://brand.duke.edu/colors https://htmlcolorcodes.com
     set -g fish_color_user 08F brcyan # default: brgreen
     set -g fish_color_host 08F brcyan # default: normal
-    set -g fish_color_host_remote 08F brcyan # default: yellow
     # Can't abide the red comments in the default theme.
     set -g fish_color_comment brblack # default: red
     # I don't like the white '@' in the default prompt.
