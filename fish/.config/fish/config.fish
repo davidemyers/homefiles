@@ -52,6 +52,12 @@ if status is-interactive
                 set -gx TERM screen-256color
             end
 
+            # If the console is on a JetKVM, change the system font if
+            # ~/.console-setup exists.
+            if status is-login; and path is ~/.console-setup; and test "$(tty)" = /dev/tty1; and lsusb -d 1d6b:0104 &>/dev/null
+                setupcon -f
+            end
+
             # I prefer 24-hour time on a server.
             set -gx LC_TIME C.UTF-8
 
