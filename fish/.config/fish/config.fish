@@ -29,6 +29,10 @@ if status is-interactive
             fish_add_path --path --append /snap/bin
             # Prepend ~/bin to PATH if it exists.
             fish_add_path --path ~/bin
+            # Set up environment variables for Homebrew if installed.
+            if path is -x /home/linuxbrew/.linuxbrew/bin/brew
+                eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv fish)"
+            end
 
             # Make adjustments based on the terminal type.
             if test "$TERM" = xterm-ghostty; or test "$TERM" = tmux-256color
@@ -45,7 +49,7 @@ if status is-interactive
                 # This is necessary when using Shelly (iOS) or Terminal (macOS).
                 # Not needed for Ghostty (macOS) or tmux (Linux).
                 function btop --description 'Run btop with the "low color" option'
-                    command btop -lc $argv
+                    command btop --low-color $argv
                 end
             else if test "$TERM" = vt220
                 # If we're on a serial console we're probably using screen.
@@ -152,7 +156,7 @@ if status is-interactive
 
             # Set up environment variables for Homebrew.
             if path is -x /opt/homebrew/bin/brew
-                eval (/opt/homebrew/bin/brew shellenv fish)
+                eval "$(/opt/homebrew/bin/brew shellenv fish)"
             end
 
             function df --description 'alias df df -H'
