@@ -14,7 +14,7 @@ function dots --description 'Make sure .homefiles are current'
     end
 
     pushd $repo
-    if not path is .git/FETCH_HEAD
+    if path is .gitignore
         # This is the master copy, just print status.
         git status
     else
