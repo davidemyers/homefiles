@@ -9,7 +9,7 @@ function logs --description 'Print filtered list of most recent system log entri
             -e 'systemd.*Deactivated' \
             -e 'systemd.*Consumed' \
             -e 'INFO.*ubuntupro.timer' \
-            -e 'RTR-ADVERT' \
+            -e RTR-ADVERT \
             -e 'sanoid.*INFO' | tail -$LINES
     else
         echo This function is not available on this system.

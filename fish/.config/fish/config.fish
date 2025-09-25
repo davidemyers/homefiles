@@ -136,6 +136,12 @@ if status is-interactive
                 end
             end
 
+            if command -q /opt/beszel-agent/run-update.sh
+                function update-beszel --description 'Update the Beszel agent'
+                    sudo /opt/beszel-agent/run-update.sh
+                end
+            end
+
             if set -q TMUX
                 # We're running directly under tmux.
                 function tssh --description 'Open new SSH connections in new tmux windows'
