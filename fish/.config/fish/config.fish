@@ -136,9 +136,9 @@ if status is-interactive
                 end
             end
 
-            if command -q /opt/beszel-agent/run-update.sh
+            if command -q /opt/beszel-agent/beszel-agent
                 function update-beszel --description 'Update the Beszel agent'
-                    sudo /opt/beszel-agent/run-update.sh
+                    sudo /opt/beszel-agent/beszel-agent update
                 end
             end
 
