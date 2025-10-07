@@ -44,12 +44,18 @@ if status is-interactive
                 # set TERM to a safe fallback. This can happen with Ghostty
                 # (macOS) if the terminfo file has not been installed.
                 set -gx TERM xterm-256color
-            else if test "$TERM" = xterm-256color; and command -q btop
-                # Work around color problems with btop.
-                # This is necessary when using Shelly (iOS) or Terminal (macOS).
-                # Not needed for Ghostty (macOS) or tmux (Linux).
-                function btop --description 'Run btop with the "low color" option'
-                    command btop --low-color $argv
+            else if test "$TERM" = xterm-256color
+                if command -q btop
+                    # Work around color problems with btop.
+                    # This is necessary when using Shelly (iOS) or Terminal (macOS).
+                    # Not needed for Ghostty (macOS) or tmux (Linux).
+                    function btop --description 'Run btop with the "low color" option'
+                        command btop --low-color $argv
+                    end
+                end
+                if test -n "$SSH_CONNECTION"
+                    # This is necessary when using Shelly (iOS)
+                    set fish_term24bit 0
                 end
             else if test "$TERM" = vt220
                 # If we're on a serial console we're probably using screen.
