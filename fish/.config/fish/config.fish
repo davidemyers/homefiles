@@ -54,7 +54,7 @@ if status is-interactive
                     end
                 end
                 if test -n "$SSH_CONNECTION"
-                    # This is necessary when using Shelly (iOS)
+                    # This is necessary when using Shelly (iOS).
                     set fish_term24bit 0
                 end
             else if test "$TERM" = vt220
