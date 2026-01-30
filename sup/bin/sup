@@ -88,7 +88,11 @@ fi
 # Check if the running kernel is the latest installed kernel:
 if [[ -e /boot/vmlinuz && $(uname -r) != $(find /boot/vmlinuz-* | sort -V | tail -n 1 | sed 's|.*vmlinuz-||') ]]; then
     echo
-    echo "Reboot required (new kernel)"
+    echo -n "Reboot required (new kernel)"
+    if command -v piboot-try > /dev/null; then
+        echo -n "; piboot-try is available"
+    fi
+    echo
 fi
 
 # Show any systemd failed units:
