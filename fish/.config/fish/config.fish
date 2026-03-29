@@ -157,6 +157,17 @@ if status is-interactive
                 end
             end
 
+            if command -q piboot-try
+                # This is specific to Ubuntu 25.10 and later.
+                function piboot --description 'Reboot a Raspberry Pi and avoid a double boot'
+                    if piboot-try --test
+                        sudo piboot-try --reboot
+                    else
+                        sudo reboot
+                    end
+                end
+            end
+
         case Darwin
             # Functions specific to macOS.
 
