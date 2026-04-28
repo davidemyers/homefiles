@@ -82,9 +82,10 @@ if status is-interactive
             end
 
             # Make ls colors look like the Ubuntu bash defaults.
-            if command -q dircolors
-                eval (dircolors -c) || true
-            end
+            # I'm not sure I still need this.
+            #if command -q dircolors
+            #    eval (dircolors -c) || true
+            #end
 
             function df --description 'Omit certain filesystems from df'
                 command df -Th -x squashfs -x tmpfs -x devtmpfs -x fuse.snapfuse -x efivarfs $argv
