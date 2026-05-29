@@ -12,7 +12,8 @@
 # chsh -s /usr/bin/fish
 #
 # As of Ubuntu Server 25.04, fish 4 is part of the standard repositories but
-# still not installed by default.
+# still not installed by default. Also the shipped version quickly gets out of
+# date.
 #
 
 if status is-interactive
@@ -158,14 +159,16 @@ if status is-interactive
                 end
             end
 
-            if command -q piboot-try
-                # This is specific to Ubuntu 25.10 and later.
+            if path is /boot/firmware/config.txt
                 function piboot --description 'Reboot a Raspberry Pi and avoid a double boot'
-                    if piboot-try --test
-                        sudo piboot-try --reboot
-                    else
-                        sudo reboot
+                    if command -q piboot-try
+                        # This is specific to Ubuntu 25.10 and later.
+                        if piboot-try --test
+                            sudo piboot-try --reboot
+                            return
+                        end
                     end
+                    sudo reboot
                 end
             end
 
