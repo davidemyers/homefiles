@@ -200,6 +200,11 @@ if status is-interactive
     # Truncate fewer directory names in prompts.
     set -g fish_prompt_pwd_full_dirs 3 # default: 1
 
+    # Change the color used for commands based on type.
+    set -g fish_color_command brwhite
+    set -g fish_color_builtin brmagenta
+    set -g fish_color_function brgreen
+
     # Tweak some colors in the default prompt.
     # 0088FF is a luminance-boosted version of Duke Royal Blue 00539B.
     # https://brand.duke.edu/colors https://htmlcolorcodes.com
