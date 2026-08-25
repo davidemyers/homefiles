@@ -49,8 +49,12 @@ fi
 if [[ -e /etc/systemd/network/10-netplan-eth1.network.d ]]; then
     echo
     echo "External IP addresses:"
-    curl -4 icanhazip.com
-    curl -6 icanhazip.com
+#   curl -4 icanhazip.com
+#   curl -6 icanhazip.com
+    curl -4 ifconfig.me
+    echo
+    curl -6 ifconfig.me
+    echo
     if [[ -x ~/bin/renew-ra ]]; then
         echo
         renew-ra
@@ -93,6 +97,12 @@ if [[ -e /boot/vmlinuz && $(uname -r) != $(find /boot/vmlinuz-* | sort -V | tail
         echo -n "; piboot-try is available"
     fi
     echo
+fi
+
+# Show if a reboot has been scheduled:
+if message=$(shutdown --show 2>&1) ; then
+    echo
+    echo "$message"
 fi
 
 # Show any systemd failed units:
