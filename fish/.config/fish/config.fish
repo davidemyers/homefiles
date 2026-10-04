@@ -154,7 +154,7 @@ if status is-interactive
                 # We're running directly under tmux.
                 function tssh --description 'Open new SSH connections in new tmux windows'
                     for destination in $argv
-                        tmux new-window -n (string replace -r '(\w+@)?(\w+)(\.\w+)*' '$2' $destination) ssh $destination
+                        tmux new-window -n (string replace -r '(\w+@)?(\w+)(\.[\w-]+)*' '$2' $destination) ssh $destination
                     end
                 end
             end
