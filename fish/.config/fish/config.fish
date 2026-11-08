@@ -125,7 +125,12 @@ if status is-interactive
 
                 function update --description 'Update the apt package list'
                     _do_apt_update
-                    apt list --upgradable
+                    echo Security updates:
+                    apt list '?security ?not(?phasing) ?upgradable'
+                    echo Regular updates:
+                    apt list '?not(?security) ?not(?phasing) ?upgradable'
+                    echo Phasing updates:
+                    apt list '?phasing ?upgradable'
                     _check_for_reboot
                 end
 

@@ -1,6 +1,6 @@
 # Find this system's public IP addresses.
 function myip --description 'Print public IP addresses'
-    set target icanhazip.com
+    set target icanhazip.com.
     if not command -q curl
         echo Command \'curl\' is not installed.
         return 1
